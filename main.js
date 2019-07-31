@@ -12,25 +12,34 @@ $(document).ready(function() {
     {
       url : musicApi,
       method : "GET",
+      // risposta positiva del server
       success : function(data) {
+        //risposta positiva dell'API
+        if (data.success) {
 
-        var cdItem = data.response;
-        console.log(cdItem);
+          var cdItem = data.response;
+          console.log(cdItem);
 
-        // ciclo per poter iterare l'array di oggetti ricevuto dalla chiamata ajax
-        for (var i = 0; i < cdItem.length; i++) {
+          // ciclo per poter iterare l'array di oggetti ricevuto dalla chiamata ajax
+          for (var i = 0; i < cdItem.length; i++) {
 
-          //compilo il template
-          var source = $("#cd_template").html();
-          var template = Handlebars.compile(source);
+            //compilo il template
+            var source = $("#cd_template").html();
+            var template = Handlebars.compile(source);
 
-          //assegno ai segnaposto scelti nell'html l'elemento corretto
-          var context = {immagine: cdItem[i].poster , titoloAlbum: cdItem[i].title , autore: cdItem[i].author , anno: cdItem[i].year};
-          console.log("questo è il context " , context);
-          var html = template(context);
+            //assegno ai segnaposto scelti nell'html l'elemento corretto
+            var context = {
+              immagine: cdItem[i].poster,
+              titoloAlbum: cdItem[i].title,
+              autore: cdItem[i].author,
+              anno: cdItem[i].year
+            };
+            console.log("questo è il context " , context);
+            var html = template(context);
 
-          //stampo a schermo
-          $(".cds-container").append(html);
+            //stampo a schermo
+            $(".cds-container").append(html);
+          }
         }
       },
       error : function(richiesta, stato, errore) {
